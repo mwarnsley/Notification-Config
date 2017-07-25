@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Grid, Row} from 'react-bootstrap';
 import {getNotifications} from '../../actions/notificationActions';
@@ -20,7 +21,7 @@ class CardContainer extends Component {
       return (
         <NotificationCard
           key={index}
-          name={`Order: ${notification.name}`}
+          name={`Order: ${notification.orderNumber}`}
           type={`type: ${notification.type} `}
           events={`events: ${events}`}
           email={`email: ${notification.email}`}
@@ -31,12 +32,24 @@ class CardContainer extends Component {
       <Grid>
         <Row>
           <h1 className="notification-list-title">Notification List</h1>
+          <p className="description">Here you can view a list of your current notifications that you have enabled.</p>
           {notificationList}
         </Row>
       </Grid>
     );
   }
 }
+
+CardContainer.propTypes = {
+  /**
+   * Function that dispatches the actions from Redux
+   */
+  dispatch: PropTypes.func,
+  /**
+   * Array of the list of notifications saved in the state
+   */
+  notifications: PropTypes.array.isRequired,
+};
 
 export default connect(state => ({
   notifications: state.notifications.notifications

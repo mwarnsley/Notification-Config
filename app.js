@@ -61,17 +61,23 @@ app.delete('/notifications/:_id', (req, res) => {
   });
 });
 //--->>> UPDATE NOTIFICATIONS <<<--
-app.put('./notifications/:_id', (req, res) => {
+app.put('/notifications/:_id', (req, res) => {
   var notification = req.body;
   var query = req.params._id;
 
   // If field doesn't exist we will set a new field
   var update = {
     '$set': {
+      orderNumber: notification.orderNumber,
       type: notification.type,
       events: notification.events,
       email: notification.email,
-      text: notification.text
+      text: notification.text,
+      api: {
+        url: notification.api.url,
+        header: notification.api.headerType,
+        body: notification.api.body
+      }
     }
   };
 

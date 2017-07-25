@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+
 import Menu from './Menu';
 import Footer from './Footer';
 
@@ -15,6 +16,4 @@ class Notifications extends Component {
   }
 }
 
-export default connect(state => ({
-  state: state
-}))(Notifications);
+export default Notifications;

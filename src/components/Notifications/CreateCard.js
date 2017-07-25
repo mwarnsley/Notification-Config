@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Row, Col, Well, Panel} from 'react-bootstrap';
 
 class CreateCard extends Component {
@@ -18,6 +18,11 @@ class CreateCard extends Component {
   }
 }
 
-export default connect(state => ({
+CreateCard.propTypes = {
+  /**
+   * String value for the card title
+   */
+  title: PropTypes.string,
+};
 
-}))(CreateCard);
+export default CreateCard;

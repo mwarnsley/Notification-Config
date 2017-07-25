@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Row, Col, Well, Panel} from 'react-bootstrap';
 
@@ -22,5 +23,28 @@ class NotificationCard extends Component {
     );
   }
 }
+
+NotificationCard.propTypes = {
+  /**
+   * String value representing the name property
+   */
+  name: PropTypes.string.isRequired,
+  /**
+   * String of the list types
+   */
+  type: PropTypes.string.isRequired,
+  /**
+   * String of the event types
+   */
+  events: PropTypes.string.isRequired,
+  /**
+   * String representation of the email
+   */
+  email: PropTypes.string.isRequired,
+  /**
+   * String representation of the text number
+   */
+  text: PropTypes.string.isRequired,
+};
 
 export default NotificationCard;

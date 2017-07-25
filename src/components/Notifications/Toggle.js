@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class Toggle extends Component {
   constructor() {
@@ -20,17 +21,20 @@ class Toggle extends Component {
   render() {
     const {id} = this.props;
     const checked = this.state.checked;
-    // <label data-on="ON" data-off="OFF" className="toggleSwitch">
-    //   <input type="checkbox" data-value={id} onChange={this.onInputChange} checked={checked}/>
-    //   <span className="knob"></span>
-    // </label>
     return (
-      <div className="check-container">
-        <input type="checkbox" id="box" className="blaubarry" />
-        <label htmlFor="box"></label>
-      </div>
+      <label className="switch">
+        <input type="checkbox" onChange={e => this.onInputChange(e)} checked={checked}/>
+        <span className="slider"></span>
+      </label>
     );
   }
 }
+
+Toggle.propTypes = {
+  /**
+   * Number representing the ID for the checkbox
+   */
+  id: PropTypes.number,
+};
 
 export default Toggle;

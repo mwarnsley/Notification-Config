@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Grid, Row, Modal, Button, Col} from 'react-bootstrap';
 import {Link} from 'react-router';
-// Import Components needed
+
 import NotificationCard from './NotificationCard';
 import Toggle from './Toggle';
-// Import Actions from redux
+
+import {getNotifications} from '../../actions/notificationActions';
 import {deleteNotification} from '../../actions/notificationActions';
 
 class ManageContainer extends Component {
@@ -19,6 +21,10 @@ class ManageContainer extends Component {
 
     this.close = this.close.bind(this);
     this.deleteNotification = this.deleteNotification.bind(this);
+  }
+  componentDidMount() {
+    const {dispatch} = this.props;
+    dispatch(getNotifications());
   }
   open(id) {
     this.setState({
@@ -48,7 +54,7 @@ class ManageContainer extends Component {
       return (
         <div key={index}>
           <NotificationCard
-            name={`Order: ${notification.name}`}
+            name={`Order: ${notification.orderNumber}`}
             type={`type: ${notification.type}`}
             events={`events: ${events}`}
             email={`email: ${notification.email}`}
@@ -57,7 +63,7 @@ class ManageContainer extends Component {
               <Col xs={12} sm={4}>
                 <Link
                   className="btn btn-sm edit-btn"
-                  href={`/edit/${notification.name}`}>
+                  to={`/update/${notification._id}`}>
                   Edit
                 </Link>
               </Col>
@@ -83,7 +89,7 @@ class ManageContainer extends Component {
           <div className="manage-container">
             <div className="manage-title-container">
               <h1>Manage Notifications</h1>
-              <Link className="create-link" href="/create">
+              <Link className="create-link" to="/create">
                 <span className="create-container">
                   <i className="fa fa-plus add-icon" aria-hidden="true"></i>
                   Create Notification
@@ -91,7 +97,7 @@ class ManageContainer extends Component {
               </Link>
             </div>
             <div className="clearfix"></div>
-            <p>Please select which notification you would like to manage. You can turn notifications on/off or edit the notifications from this screen</p>
+            <p className="description">Please select which notification you would like to manage. You can turn notifications on/off or edit the notifications from this screen.</p>
             <Row>
               {notificationList}
             </Row>
@@ -114,6 +120,17 @@ class ManageContainer extends Component {
     );
   }
 }
+
+ManageContainer.propTypes = {
+  /**
+   * Function that dispatches the actions from Redux
+   */
+  dispatch: PropTypes.func,
+  /**
+   * Array of the list of notifications saved in the state
+   */
+  notifications: PropTypes.array.isRequired,
+};
 
 export default connect(state => ({
   notifications: state.notifications.notifications

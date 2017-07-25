@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import {saveNotificationProfile} from '../../actions/notificationActions';
+import {updateNotification} from '../../actions/notificationActions';
 import {
   Grid,
   Row,
@@ -16,7 +16,7 @@ import {
 import Input from '../common/Input';
 import CreateCard from './CreateCard';
 
-class CreateContainer extends Component {
+class UpdateContainer extends Component {
   constructor() {
     super();
 
@@ -30,7 +30,6 @@ class CreateContainer extends Component {
       headerType: '',
       body: '',
     };
-    this.saveNotification = this.saveNotification.bind(this);
     this.onTypeChange = this.onTypeChange.bind(this);
     this.onEventChange = this.onEventChange.bind(this);
   }
@@ -94,16 +93,17 @@ class CreateContainer extends Component {
       body: body
     });
   }
-  saveNotification() {
-    const {dispatch} = this.props;
-    const orderNumber = this.state.orderNumber;
-    const types = this.state.types;
-    const events = this.state.events;
-    const email = this.state.email;
-    const text = this.state.text;
-    const URL = this.state.url;
-    const headerType = this.state.headerType;
-    const body = this.state.body;
+  updateNotification(_id) {
+    const {dispatch, notifications, params} = this.props;
+    const notificationToUpdate = notifications.filter(notification => params.id === notification._id)[0];
+    const orderNumber = this.state.orderNumber || notificationToUpdate.orderNumber;
+    const types = this.state.types.length === 0 ? notificationToUpdate.type : this.state.types;
+    const events = this.state.events.length === 0 ? notificationToUpdate.events : this.state.events;
+    const email = this.state.email || notificationToUpdate.email;
+    const text = this.state.text || notificationToUpdate.text;
+    const URL = this.state.url || notificationToUpdate.api.url;
+    const headerType = this.state.headerType || notificationToUpdate.api.headerType;
+    const body = this.state.body || notificationToUpdate.api.body;
     const newNotificationObj = {
       orderNumber: orderNumber,
       type: types,
@@ -116,10 +116,11 @@ class CreateContainer extends Component {
         body: body
       }
     };
-    dispatch(saveNotificationProfile(newNotificationObj));
+    dispatch(updateNotification(_id, newNotificationObj));
   }
   render() {
-    const {types, notifications, events} = this.props;
+    const {types, notifications, events, params} = this.props;
+    const notificationToUpdate = notifications.filter(notification => params.id === notification._id)[0];
     const noteTypes = types.map((type) => {
       return (
         <div className="type-container" key={type}>
@@ -149,12 +150,13 @@ class CreateContainer extends Component {
     return (
       <Grid>
         <Row>
-          <h1 className="create-notification-title">Create Notification</h1>
-          <p className="description">Here you can create new notifications. To save, click save notification at the bottom of the screen.</p>
+          <h1 className="create-notification-title">Update Notification</h1>
+          <p className="description">Here you can update the notification you clicked on. To save, click the update notification button at the bottom of the screen.</p>
           <CreateCard title={'Order Number'}>
             <FormGroup>
               <FormControl
                 type="text"
+                defaultValue={notificationToUpdate.orderNumber}
                 placeholder="Enter Order Number"
                 onChange={e => this.onOrderChange(e)}
                 ref="order" />
@@ -171,6 +173,7 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Email"
+                defaultValue={notificationToUpdate.email}
                 onChange={e => this.onEmailChange(e)}
                 ref="email" />
             </FormGroup>
@@ -180,6 +183,7 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Number"
+                defaultValue={notificationToUpdate.text}
                 onChange={e => this.onTextChange(e)}
                 ref="text" />
             </FormGroup>
@@ -189,12 +193,14 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter URL"
+                defaultValue={notificationToUpdate.api.url}
                 className="api-input"
                 onChange={e => this.onUrlChange(e)}
                 ref="url" />
               <FormControl
                 componentClass="select"
                 onChange={e => this.onHeaderChange(e)}
+                defaultValue={notificationToUpdate.api.headerType}
                 className="api-input">
                 <option value="">Select Header Type</option>
                 <option value="application/base64">application/base64</option>
@@ -209,6 +215,7 @@ class CreateContainer extends Component {
               <FormControl
                 componentClass="textarea"
                 placeholder="Request Body"
+                defaultValue={notificationToUpdate.api.body}
                 onChange={e => this.onBodyChange(e)}
                 className="api-text-input" />
             </FormGroup>
@@ -216,10 +223,10 @@ class CreateContainer extends Component {
         </Row>
         <Row className="save-btn-container">
           <Link
-            onClick={this.saveNotification}
+            onClick={() => this.updateNotification(notificationToUpdate._id)}
             className="btn-save"
             to="/">
-            Save Notification
+            Update Notification
           </Link>
         </Row>
       </Grid>
@@ -227,7 +234,7 @@ class CreateContainer extends Component {
   }
 }
 
-CreateContainer.propTypes = {
+UpdateContainer.propTypes = {
   /**
    * Function to dispatch actions from Redux
    */
@@ -250,4 +257,4 @@ export default connect(state => ({
   notifications: state.notifications.notifications,
   types: state.notifications.types,
   events: state.notifications.events
-}))(CreateContainer);
+}))(UpdateContainer);

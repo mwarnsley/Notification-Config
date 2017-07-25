@@ -64,6 +64,10 @@ export default StyleSheet.create({
     "navbar-inverse navbar-brand:hover": {
         "color": "#13B690"
     },
+    "description": {
+        "marginBottom": 25,
+        "textAlign": "center"
+    },
     "card-panelpanel": {
         "background": "#13B690",
         "color": "#FFF",
@@ -86,7 +90,17 @@ export default StyleSheet.create({
     "edit-btn": {
         "color": "#FFF",
         "backgroundColor": "#13B690",
-        "borderColor": "#13B690"
+        "borderColor": "#13B690",
+        "paddingTop": 7,
+        "paddingRight": 10,
+        "paddingBottom": 7,
+        "paddingLeft": 10
+    },
+    "btnbtn-danger": {
+        "paddingTop": 7,
+        "paddingRight": 10,
+        "paddingBottom": 7,
+        "paddingLeft": 10
     },
     "create-container": {
         "color": "#435464",
@@ -108,11 +122,18 @@ export default StyleSheet.create({
     },
     "btn-save": {
         "background": "#435464",
+        "borderRadius": 10,
         "color": "#FFF",
-        "float": "right"
+        "paddingTop": 15,
+        "paddingRight": 15,
+        "paddingBottom": 15,
+        "paddingLeft": 15
     },
     "btn-save:hover": {
         "background": "#13B690"
+    },
+    "save-btn-container": {
+        "textAlign": "center"
     },
     "api-input": {
         "marginBottom": 10
@@ -140,5 +161,47 @@ export default StyleSheet.create({
     "create-notification-title": {
         "marginBottom": 20,
         "textAlign": "center"
+    },
+    "switch": {
+        "position": "relative",
+        "display": "inline-block",
+        "width": 60,
+        "height": 34
+    },
+    "switch input": {
+        "display": "none"
+    },
+    "slider": {
+        "position": "absolute",
+        "cursor": "pointer",
+        "top": 0,
+        "left": 0,
+        "right": 0,
+        "bottom": 0,
+        "backgroundColor": "#ccc",
+        "WebkitTransition": ".4s",
+        "transition": ".4s"
+    },
+    "slider:before": {
+        "position": "absolute",
+        "content": "",
+        "height": 26,
+        "width": 26,
+        "left": 4,
+        "bottom": 4,
+        "backgroundColor": "white",
+        "WebkitTransition": ".4s",
+        "transition": ".4s"
+    },
+    "input:checked + slider": {
+        "backgroundColor": "#13B690"
+    },
+    "input:focus + slider": {
+        "boxShadow": "0 0 1px #13B690"
+    },
+    "input:checked + slider:before": {
+        "WebkitTransform": "translateX(26px)",
+        "MsTransform": "translateX(26px)",
+        "transform": "translateX(26px)"
     }
 });

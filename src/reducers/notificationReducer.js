@@ -20,6 +20,21 @@ export function notificationReducer(state = initialState, action) {
         ]
       };
     break;
+    case "UPDATE_NOTIFICATION":
+      const updated = action.payload;
+      const updatedNotifications = state.notifications.map((notification) => {
+        if (notification._id === updated._id) {
+          return {
+            ...updated
+          };
+        }
+        return notification;
+      });
+      return {
+        ...state,
+        notifications: updatedNotifications
+      };
+    break;
     case "DELETE_NOTIFICATION":
       const deleted = action.payload;
       const notifications = state.notifications.filter((notification) => {
