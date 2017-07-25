@@ -1,0 +1,105 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #F1F5FC;
+  color: #435464;
+  letter-spacing: 0.5px;
+  margin: 50px 0;
+}
+html, body {
+  height: 100%;
+}
+.footer {
+  background: #435464;
+  height: 50px;
+  margin-top: 25px;
+  padding: 15px;
+}
+.footer .footer-text {
+  color: #FFF;
+}
+.container {
+  max-width: 900px;
+  padding: 0 15px;
+  width: auto;
+}
+.navbar.navbar-inverse {
+  background: #435464;
+}
+.navbar-inverse .navbar-brand {
+  color: #FFF;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFF;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #13B690;
+}
+.navbar-inverse .navbar-brand:hover {
+  color: #13B690;
+}
+.card-panel.panel {
+  background: #13B690;
+  color: #FFF;
+  height: 315px;
+  max-height: 315px;
+}
+.card-container.well {
+  background: #435464;
+  height: 400px;
+  max-height: 400px;
+}
+.manage-container {
+  position: relative;
+}
+.add-icon {
+  color: #435464;
+  font-size: 16px;
+  margin-right: 5px;
+}
+.edit-btn {
+  color: #FFF;
+  background-color: #13B690;
+  border-color: #13B690;
+}
+.create-container {
+  color: #435464;
+  font-size: 16px;
+}
+.create-link {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+.create-card-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.form-control.api-text-input {
+  height: 100px;
+  max-height: 100px;
+  width: 100%;
+}
+.btn-save {
+  background: #435464;
+  color: #FFF;
+  float: right;
+}
+.btn-save:hover {
+  background: #13B690;
+}
+.api-input {
+  margin-bottom: 10px;
+}
+.type-container .type-check, .event-container .event-check {
+  margin-right: 10px;
+}
+.type-container, .event-container {
+  margin-bottom: 10px;
+}
+.manage-title-container, .notification-list-title, .create-notification-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
