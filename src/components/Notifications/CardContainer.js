@@ -25,7 +25,7 @@ class CardContainer extends Component {
           events={`events: ${events}`}
           email={`email: ${notification.email}`}
           text={`text: ${notification.text}`}
-          api={`api: url: ${notification.api.url} header: ${notification.api.headerType} body: ${notification.api.body}`}/>
+          api={`api: url: ${notification.api.url || ''} header: ${notification.api.headerType || ''} body: ${notification.api.body || ''}`}/>
       );
     });
     return (
