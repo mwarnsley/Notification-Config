@@ -5,7 +5,7 @@ import {Row, Col, Well, Panel} from 'react-bootstrap';
 
 class NotificationCard extends Component {
   render() {
-    const {name, type, events, email, text} = this.props;
+    const {name, type, events, email, text, api} = this.props;
     const classes = 'card-container';
     return (
       <Col xs={12} sm={6} md={4}>
@@ -46,6 +46,10 @@ NotificationCard.propTypes = {
    * String representation of the text number
    */
   text: PropTypes.string.isRequired,
+  /**
+   * String representation of the API display 
+   */
+  api: PropTypes.string.isRequired,
 };
 
 export default NotificationCard;

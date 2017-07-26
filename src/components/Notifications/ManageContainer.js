@@ -58,7 +58,8 @@ class ManageContainer extends Component {
             type={`type: ${notification.type}`}
             events={`events: ${events}`}
             email={`email: ${notification.email}`}
-            text={`text: ${notification.text}`}>
+            text={`text: ${notification.text}`}
+            api={`api: url: ${notification.api.url || ''} header: ${notification.api.headerType || ''} body: ${notification.api.body || ''}`}>
             <Row>
               <Col xs={12} sm={4}>
                 <Link
