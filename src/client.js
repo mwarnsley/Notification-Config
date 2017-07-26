@@ -20,17 +20,10 @@ import ManageContainer from './components/Notifications/ManageContainer';
 import CreateContainer from './components/Notifications/CreateContainer';
 import UpdateContainer from './components/Notifications/UpdateContainer';
 
-import {getNotifications} from './actions/notificationActions';
-
 // Create the middleware logger for showing logs and including the thunks
 const middleware = applyMiddleware(thunk, logger);
 // Create the store passing in the reducer
 const store = createStore(reducers, middleware);
-
-store.dispatch(getNotifications());
-
-console.log('Store State: ', store.getState());
-
 // Creating a routes variable for better readability
 const Routes = (
   <Provider store={store}>
