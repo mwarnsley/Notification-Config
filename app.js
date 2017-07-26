@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // APIS
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27018/notificationconfig');
+mongoose.connect('mongodb://admin:password1234@ds125623.mlab.com:25623/notifications');
 
 var Notifications = require('./models/notifications.js');
 
