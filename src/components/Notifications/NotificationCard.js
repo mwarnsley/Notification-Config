@@ -16,6 +16,7 @@ class NotificationCard extends Component {
             <p>{events}</p>
             <p>{email}</p>
             <p>{text}</p>
+            <p>{api}</p>
           </Panel>
           {this.props.children}
         </Well>

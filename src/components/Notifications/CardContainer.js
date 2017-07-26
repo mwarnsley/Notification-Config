@@ -14,7 +14,6 @@ class CardContainer extends Component {
   render() {
     const {notifications} = this.props;
     const notificationList = notifications.map((notification, index) => {
-      console.log(notification);
       const events = notification.events.map((item, i) => {
         return ` ${item}`;
       });
@@ -25,7 +24,8 @@ class CardContainer extends Component {
           type={`type: ${notification.type} `}
           events={`events: ${events}`}
           email={`email: ${notification.email}`}
-          text={`text: ${notification.text}`}/>
+          text={`text: ${notification.text}`}
+          api={`api: url: ${notification.api.url} header: ${notification.api.headerType} body: ${notification.api.body}`}/>
       );
     });
     return (
