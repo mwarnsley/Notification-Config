@@ -11,8 +11,11 @@ class Toggle extends Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
   onInputChange(e) {
-    const {toggleActive} = this.props;
+    const {toggleActive, active} = this.props;
     const id = e.target.id;
+    this.setState({
+      checked: !active
+    });
     toggleActive(id);
   }
   render() {

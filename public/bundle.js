@@ -58839,9 +58839,14 @@ var Toggle = function (_Component) {
   _createClass(Toggle, [{
     key: 'onInputChange',
     value: function onInputChange(e) {
-      var toggleActive = this.props.toggleActive;
+      var _props = this.props,
+          toggleActive = _props.toggleActive,
+          active = _props.active;
 
       var id = e.target.id;
+      this.setState({
+        checked: !active
+      });
       toggleActive(id);
     }
   }, {
