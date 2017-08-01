@@ -123,7 +123,6 @@ class UpdateContainer extends Component {
         body: body
       }
     };
-    console.log(_id);
     dispatch(updateNotification(_id, newNotificationObj));
   }
   render() {

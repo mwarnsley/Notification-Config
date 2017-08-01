@@ -59460,7 +59460,6 @@ var UpdateContainer = function (_Component) {
           body: body
         }
       };
-      console.log(_id);
       dispatch((0, _notificationActions.updateNotification)(_id, newNotificationObj));
     }
   }, {
