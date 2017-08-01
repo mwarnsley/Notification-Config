@@ -3,18 +3,16 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-
+var express = require('express');
 var app = express();
+var port = 5000;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// Set the port to use
+app.set('port', (process.env.PORT || port));
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// Middleware to define folder for static files
+app.use(express.static('public'));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -118,6 +116,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(app.get('port'), () => {
+  console.log(`Application listening on port: `, app.get('port'));
 });
 
 module.exports = app;
