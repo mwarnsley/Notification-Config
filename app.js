@@ -65,7 +65,9 @@ app.delete('/notifications/:_id', (req, res) => {
 //--->>> UPDATE NOTIFICATIONS <<<--
 app.put('/notifications/:_id', (req, res) => {
   var notification = req.body;
-  var query = req.params._id;
+  var query = {
+    _id: req.params._id
+  };
 
   // If field doesn't exist we will set a new field
   var update = {

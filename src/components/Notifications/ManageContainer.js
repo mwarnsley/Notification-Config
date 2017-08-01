@@ -8,6 +8,7 @@ import NotificationCard from './NotificationCard';
 import Toggle from './Toggle';
 
 import {getNotifications} from '../../actions/notificationActions';
+import {updateNotification} from '../../actions/notificationActions';
 import {deleteNotification} from '../../actions/notificationActions';
 
 class ManageContainer extends Component {
@@ -36,6 +37,25 @@ class ManageContainer extends Component {
     this.setState({
       showModal: false,
     });
+  }
+  toggleActiveStatus(id) {
+    const {notifications, dispatch} = this.props;
+    const currentNotification = notifications.find(notification => notification._id === id);
+    let activeStatus = currentNotification.active ? false : true;
+    const updateStatusNotification = {
+      active: activeStatus,
+      orderNumber: currentNotification.orderNumber,
+      type: currentNotification.types || [],
+      events: currentNotification.events || [],
+      email: currentNotification.email,
+      text: currentNotification.text,
+      api: {
+        url: currentNotification.api.URL || '',
+        headerType: currentNotification.api.headerType || '',
+        body: currentNotification.api.body || ''
+      }
+    };
+    dispatch(updateNotification(id, updateStatusNotification));
   }
   deleteNotification() {
     const {dispatch} = this.props;
@@ -80,7 +100,10 @@ class ManageContainer extends Component {
                 </Button>
               </Col>
               <Col xs={12} sm={4}>
-                <Toggle id={notification.name}/>
+                <Toggle
+                  toggleActive={(id) => this.toggleActiveStatus(id)}
+                  active={notification.active}
+                  id={notification._id}/>
               </Col>
             </Row>
           </NotificationCard>

@@ -2,28 +2,25 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 class Toggle extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      checked: true,
-      checkedValue: ''
+      checked: props.active,
     };
     this.onInputChange = this.onInputChange.bind(this);
   }
   onInputChange(e) {
-    const value = e.target.dataset.value;
-    this.setState({
-      checked: !this.state.checked,
-      checkedValue: value
-    });
+    const {toggleActive} = this.props;
+    const id = e.target.id;
+    toggleActive(id);
   }
   render() {
     const {id} = this.props;
     const checked = this.state.checked;
     return (
       <label className="switch">
-        <input type="checkbox" onChange={e => this.onInputChange(e)} checked={checked}/>
+        <input id={id} type="checkbox" onChange={this.onInputChange} checked={checked}/>
         <span className="slider"></span>
       </label>
     );
@@ -34,7 +31,11 @@ Toggle.propTypes = {
   /**
    * Number representing the ID for the checkbox
    */
-  id: PropTypes.number,
+  id: PropTypes.string.isRequired,
+  /**
+   * Function for toggling the active status of the notification
+   */
+  toggleActive: PropTypes.func,
 };
 
 export default Toggle;

@@ -24,9 +24,7 @@ export function notificationReducer(state = initialState, action) {
       const updated = action.payload;
       const updatedNotifications = state.notifications.map((notification) => {
         if (notification._id === updated._id) {
-          return {
-            ...updated
-          };
+          return updated;
         }
         return notification;
       });

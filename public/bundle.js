@@ -46487,7 +46487,7 @@ function notificationReducer() {
       var updated = action.payload;
       var updatedNotifications = state.notifications.map(function (notification) {
         if (notification._id === updated._id) {
-          return _extends({}, updated);
+          return updated;
         }
         return notification;
       });
@@ -58582,6 +58582,32 @@ var ManageContainer = function (_Component) {
       });
     }
   }, {
+    key: 'toggleActiveStatus',
+    value: function toggleActiveStatus(id) {
+      var _props = this.props,
+          notifications = _props.notifications,
+          dispatch = _props.dispatch;
+
+      var currentNotification = notifications.find(function (notification) {
+        return notification._id === id;
+      });
+      var activeStatus = currentNotification.active ? false : true;
+      var updateStatusNotification = {
+        active: activeStatus,
+        orderNumber: currentNotification.orderNumber,
+        type: currentNotification.types || [],
+        events: currentNotification.events || [],
+        email: currentNotification.email,
+        text: currentNotification.text,
+        api: {
+          url: currentNotification.api.URL || '',
+          headerType: currentNotification.api.headerType || '',
+          body: currentNotification.api.body || ''
+        }
+      };
+      dispatch((0, _notificationActions.updateNotification)(id, updateStatusNotification));
+    }
+  }, {
     key: 'deleteNotification',
     value: function deleteNotification() {
       var dispatch = this.props.dispatch;
@@ -58649,7 +58675,12 @@ var ManageContainer = function (_Component) {
               _react2.default.createElement(
                 _reactBootstrap.Col,
                 { xs: 12, sm: 4 },
-                _react2.default.createElement(_Toggle2.default, { id: notification.name })
+                _react2.default.createElement(_Toggle2.default, {
+                  toggleActive: function toggleActive(id) {
+                    return _this2.toggleActiveStatus(id);
+                  },
+                  active: notification.active,
+                  id: notification._id })
               )
             )
           )
@@ -58793,14 +58824,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Toggle = function (_Component) {
   _inherits(Toggle, _Component);
 
-  function Toggle() {
+  function Toggle(props) {
     _classCallCheck(this, Toggle);
 
-    var _this = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this));
+    var _this = _possibleConstructorReturn(this, (Toggle.__proto__ || Object.getPrototypeOf(Toggle)).call(this, props));
 
     _this.state = {
-      checked: true,
-      checkedValue: ''
+      checked: props.active
     };
     _this.onInputChange = _this.onInputChange.bind(_this);
     return _this;
@@ -58809,26 +58839,21 @@ var Toggle = function (_Component) {
   _createClass(Toggle, [{
     key: 'onInputChange',
     value: function onInputChange(e) {
-      var value = e.target.dataset.value;
-      this.setState({
-        checked: !this.state.checked,
-        checkedValue: value
-      });
+      var toggleActive = this.props.toggleActive;
+
+      var id = e.target.id;
+      toggleActive(id);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var id = this.props.id;
 
       var checked = this.state.checked;
       return _react2.default.createElement(
         'label',
         { className: 'switch' },
-        _react2.default.createElement('input', { type: 'checkbox', onChange: function onChange(e) {
-            return _this2.onInputChange(e);
-          }, checked: checked }),
+        _react2.default.createElement('input', { id: id, type: 'checkbox', onChange: this.onInputChange, checked: checked }),
         _react2.default.createElement('span', { className: 'slider' })
       );
     }
@@ -58841,7 +58866,11 @@ Toggle.propTypes = {
   /**
    * Number representing the ID for the checkbox
    */
-  id: _propTypes2.default.number
+  id: _propTypes2.default.string.isRequired,
+  /**
+   * Function for toggling the active status of the notification
+   */
+  toggleActive: _propTypes2.default.func
 };
 
 exports.default = Toggle;
@@ -59309,6 +59338,12 @@ var UpdateContainer = function (_Component) {
     };
     _this.onTypeChange = _this.onTypeChange.bind(_this);
     _this.onEventChange = _this.onEventChange.bind(_this);
+    _this.onOrderChange = _this.onOrderChange.bind(_this);
+    _this.onTextChange = _this.onTextChange.bind(_this);
+    _this.onEmailChange = _this.onEmailChange.bind(_this);
+    _this.onUrlChange = _this.onUrlChange.bind(_this);
+    _this.onHeaderChange = _this.onHeaderChange.bind(_this);
+    _this.onBodyChange = _this.onBodyChange.bind(_this);
     return _this;
   }
 
@@ -59396,9 +59431,9 @@ var UpdateContainer = function (_Component) {
           notifications = _props.notifications,
           params = _props.params;
 
-      var notificationToUpdate = notifications.filter(function (notification) {
+      var notificationToUpdate = notifications.find(function (notification) {
         return params.id === notification._id;
-      })[0];
+      });
       var orderNumber = this.state.orderNumber || notificationToUpdate.orderNumber;
       var types = this.state.types.length === 0 ? notificationToUpdate.type : this.state.types;
       var events = this.state.events.length === 0 ? notificationToUpdate.events : this.state.events;
@@ -59408,6 +59443,7 @@ var UpdateContainer = function (_Component) {
       var headerType = this.state.headerType || notificationToUpdate.api.headerType;
       var body = this.state.body || notificationToUpdate.api.body;
       var newNotificationObj = {
+        active: true,
         orderNumber: orderNumber,
         type: types,
         events: events,
@@ -59419,6 +59455,7 @@ var UpdateContainer = function (_Component) {
           body: body
         }
       };
+      console.log(_id);
       dispatch((0, _notificationActions.updateNotification)(_id, newNotificationObj));
     }
   }, {
@@ -59432,9 +59469,9 @@ var UpdateContainer = function (_Component) {
           events = _props2.events,
           params = _props2.params;
 
-      var notificationToUpdate = notifications.filter(function (notification) {
+      var notificationToUpdate = notifications.find(function (notification) {
         return params.id === notification._id;
-      })[0];
+      });
       var noteTypes = types.map(function (type) {
         return _react2.default.createElement(
           'div',
@@ -59487,9 +59524,7 @@ var UpdateContainer = function (_Component) {
                 type: 'text',
                 defaultValue: notificationToUpdate.orderNumber,
                 placeholder: 'Enter Order Number',
-                onChange: function onChange(e) {
-                  return _this2.onOrderChange(e);
-                },
+                onChange: this.onOrderChange,
                 ref: 'order' })
             )
           ),
@@ -59513,9 +59548,7 @@ var UpdateContainer = function (_Component) {
                 type: 'text',
                 placeholder: 'Enter Email',
                 defaultValue: notificationToUpdate.email,
-                onChange: function onChange(e) {
-                  return _this2.onEmailChange(e);
-                },
+                onChange: this.onEmailChange,
                 ref: 'email' })
             )
           ),
@@ -59529,9 +59562,7 @@ var UpdateContainer = function (_Component) {
                 type: 'text',
                 placeholder: 'Enter Number',
                 defaultValue: notificationToUpdate.text,
-                onChange: function onChange(e) {
-                  return _this2.onTextChange(e);
-                },
+                onChange: this.onTextChange,
                 ref: 'text' })
             )
           ),
@@ -59546,17 +59577,13 @@ var UpdateContainer = function (_Component) {
                 placeholder: 'Enter URL',
                 defaultValue: notificationToUpdate.api.url,
                 className: 'api-input',
-                onChange: function onChange(e) {
-                  return _this2.onUrlChange(e);
-                },
+                onChange: this.onUrlChange,
                 ref: 'url' }),
               _react2.default.createElement(
                 _reactBootstrap.FormControl,
                 {
                   componentClass: 'select',
-                  onChange: function onChange(e) {
-                    return _this2.onHeaderChange(e);
-                  },
+                  onChange: this.onHeaderChange,
                   defaultValue: notificationToUpdate.api.headerType,
                   className: 'api-input' },
                 _react2.default.createElement(
@@ -59609,9 +59636,7 @@ var UpdateContainer = function (_Component) {
                 componentClass: 'textarea',
                 placeholder: 'Request Body',
                 defaultValue: notificationToUpdate.api.body,
-                onChange: function onChange(e) {
-                  return _this2.onBodyChange(e);
-                },
+                onChange: this.onBodyChange,
                 className: 'api-text-input' })
             )
           )

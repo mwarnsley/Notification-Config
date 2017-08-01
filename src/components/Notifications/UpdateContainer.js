@@ -32,6 +32,12 @@ class UpdateContainer extends Component {
     };
     this.onTypeChange = this.onTypeChange.bind(this);
     this.onEventChange = this.onEventChange.bind(this);
+    this.onOrderChange = this.onOrderChange.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onUrlChange = this.onUrlChange.bind(this);
+    this.onHeaderChange = this.onHeaderChange.bind(this);
+    this.onBodyChange = this.onBodyChange.bind(this);
   }
   onTypeChange() {
     const inputs = document.getElementsByClassName('type-check');
@@ -95,7 +101,7 @@ class UpdateContainer extends Component {
   }
   updateNotification(_id) {
     const {dispatch, notifications, params} = this.props;
-    const notificationToUpdate = notifications.filter(notification => params.id === notification._id)[0];
+    const notificationToUpdate = notifications.find(notification => params.id === notification._id);
     const orderNumber = this.state.orderNumber || notificationToUpdate.orderNumber;
     const types = this.state.types.length === 0 ? notificationToUpdate.type : this.state.types;
     const events = this.state.events.length === 0 ? notificationToUpdate.events : this.state.events;
@@ -105,6 +111,7 @@ class UpdateContainer extends Component {
     const headerType = this.state.headerType || notificationToUpdate.api.headerType;
     const body = this.state.body || notificationToUpdate.api.body;
     const newNotificationObj = {
+      active: true,
       orderNumber: orderNumber,
       type: types,
       events: events,
@@ -116,11 +123,12 @@ class UpdateContainer extends Component {
         body: body
       }
     };
+    console.log(_id);
     dispatch(updateNotification(_id, newNotificationObj));
   }
   render() {
     const {types, notifications, events, params} = this.props;
-    const notificationToUpdate = notifications.filter(notification => params.id === notification._id)[0];
+    const notificationToUpdate = notifications.find(notification => params.id === notification._id);
     const noteTypes = types.map((type) => {
       return (
         <div className="type-container" key={type}>
@@ -158,7 +166,7 @@ class UpdateContainer extends Component {
                 type="text"
                 defaultValue={notificationToUpdate.orderNumber}
                 placeholder="Enter Order Number"
-                onChange={e => this.onOrderChange(e)}
+                onChange={this.onOrderChange}
                 ref="order" />
             </FormGroup>
           </CreateCard>
@@ -174,7 +182,7 @@ class UpdateContainer extends Component {
                 type="text"
                 placeholder="Enter Email"
                 defaultValue={notificationToUpdate.email}
-                onChange={e => this.onEmailChange(e)}
+                onChange={this.onEmailChange}
                 ref="email" />
             </FormGroup>
           </CreateCard>
@@ -184,7 +192,7 @@ class UpdateContainer extends Component {
                 type="text"
                 placeholder="Enter Number"
                 defaultValue={notificationToUpdate.text}
-                onChange={e => this.onTextChange(e)}
+                onChange={this.onTextChange}
                 ref="text" />
             </FormGroup>
           </CreateCard>
@@ -195,11 +203,11 @@ class UpdateContainer extends Component {
                 placeholder="Enter URL"
                 defaultValue={notificationToUpdate.api.url}
                 className="api-input"
-                onChange={e => this.onUrlChange(e)}
+                onChange={this.onUrlChange}
                 ref="url" />
               <FormControl
                 componentClass="select"
-                onChange={e => this.onHeaderChange(e)}
+                onChange={this.onHeaderChange}
                 defaultValue={notificationToUpdate.api.headerType}
                 className="api-input">
                 <option value="">Select Header Type</option>
@@ -216,7 +224,7 @@ class UpdateContainer extends Component {
                 componentClass="textarea"
                 placeholder="Request Body"
                 defaultValue={notificationToUpdate.api.body}
-                onChange={e => this.onBodyChange(e)}
+                onChange={this.onBodyChange}
                 className="api-text-input" />
             </FormGroup>
           </CreateCard>
