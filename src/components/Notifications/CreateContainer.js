@@ -33,6 +33,12 @@ class CreateContainer extends Component {
     this.saveNotification = this.saveNotification.bind(this);
     this.onTypeChange = this.onTypeChange.bind(this);
     this.onEventChange = this.onEventChange.bind(this);
+    this.onOrderChange = this.onOrderChange.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onUrlChange = this.onUrlChange.bind(this);
+    this.onHeaderChange = this.onHeaderChange.bind(this);
+    this.onBodyChange = this.onBodyChange.bind(this);
   }
   onTypeChange() {
     const inputs = document.getElementsByClassName('type-check');
@@ -105,6 +111,7 @@ class CreateContainer extends Component {
     const headerType = this.state.headerType;
     const body = this.state.body;
     const newNotificationObj = {
+      active: true,
       orderNumber: orderNumber,
       type: types,
       events: events,
@@ -156,7 +163,7 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Order Number"
-                onChange={e => this.onOrderChange(e)}
+                onChange={this.onOrderChange}
                 ref="order" />
             </FormGroup>
           </CreateCard>
@@ -171,7 +178,7 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Email"
-                onChange={e => this.onEmailChange(e)}
+                onChange={this.onEmailChange}
                 ref="email" />
             </FormGroup>
           </CreateCard>
@@ -180,7 +187,7 @@ class CreateContainer extends Component {
               <FormControl
                 type="text"
                 placeholder="Enter Number"
-                onChange={e => this.onTextChange(e)}
+                onChange={this.onTextChange}
                 ref="text" />
             </FormGroup>
           </CreateCard>
@@ -190,11 +197,11 @@ class CreateContainer extends Component {
                 type="text"
                 placeholder="Enter URL"
                 className="api-input"
-                onChange={e => this.onUrlChange(e)}
+                onChange={this.onUrlChange}
                 ref="url" />
               <FormControl
                 componentClass="select"
-                onChange={e => this.onHeaderChange(e)}
+                onChange={this.onHeaderChange}
                 className="api-input">
                 <option value="">Select Header Type</option>
                 <option value="application/base64">application/base64</option>
@@ -209,7 +216,7 @@ class CreateContainer extends Component {
               <FormControl
                 componentClass="textarea"
                 placeholder="Request Body"
-                onChange={e => this.onBodyChange(e)}
+                onChange={this.onBodyChange}
                 className="api-text-input" />
             </FormGroup>
           </CreateCard>

@@ -51,9 +51,12 @@ class ManageContainer extends Component {
       const events = notification.events.map((item, i) => {
         return ` ${item}`;
       });
+      const activeNotification = notification.active ? 'Active' : 'Non-Active';
       return (
         <div key={index}>
           <NotificationCard
+            key={index}
+            active={`Status: ${activeNotification}`}
             name={`Order: ${notification.orderNumber}`}
             type={`type: ${notification.type}`}
             events={`events: ${events}`}

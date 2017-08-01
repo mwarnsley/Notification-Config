@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var port = 5000;
 
 var app = express();
 
@@ -22,12 +21,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set the port to use
-app.set('port', (process.env.PORT || port));
-
 // APIS
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://admin:password1234@ds125623.mlab.com:25623/notifications');
+// Production database (Need to comment depending on what environment is being edited)
+// mongoose.connect('mongodb://admin:password1234@ds125623.mlab.com:25623/notifications');
+// Local Development Database (Need to comment depending on what environment is being edited)
+mongoose.connect('mongodb://localhost:27018/notificationconfig');
 
 var Notifications = require('./models/notifications.js');
 
@@ -71,6 +70,7 @@ app.put('/notifications/:_id', (req, res) => {
   // If field doesn't exist we will set a new field
   var update = {
     '$set': {
+      active: notification.active,
       orderNumber: notification.orderNumber,
       type: notification.type,
       events: notification.events,
@@ -117,10 +117,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-app.listen(app.get('port'), () => {
-  console.log(`Application listening on port: `, app.get('port'));
-});
-
 
 module.exports = app;
