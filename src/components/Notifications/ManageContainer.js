@@ -45,12 +45,12 @@ class ManageContainer extends Component {
     const updateStatusNotification = {
       active: activeStatus,
       orderNumber: currentNotification.orderNumber,
-      type: currentNotification.types || [],
+      type: currentNotification.type || [],
       events: currentNotification.events || [],
       email: currentNotification.email,
       text: currentNotification.text,
       api: {
-        url: currentNotification.api.URL || '',
+        url: currentNotification.api.url || '',
         headerType: currentNotification.api.headerType || '',
         body: currentNotification.api.body || ''
       }
